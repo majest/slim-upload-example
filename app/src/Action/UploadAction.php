@@ -27,7 +27,8 @@ final class UploadAction
         $files = $req->getUploadedFiles();
 
         if (empty($files['name'])) {
-            throw new \Exception('Expected a newfile');
+          $this->logger->error('Expected a file under "name" key. ' . json_encode($files)));
+          return $response->withStatus(400)->write(error('Expected a file under "name" key'));
         }
 
         $newfile = $files['name'];
@@ -38,6 +39,7 @@ final class UploadAction
             return $response->write(json_encode(array('msg' => 'Upload successful. Filename: '.$uploadFileName)));
         }
 
+        $this->logger->error('Error on upload: ' . $newfile->getError());
         return $response->withStatus(400)->write(error('Error on upload'));
     }
 }

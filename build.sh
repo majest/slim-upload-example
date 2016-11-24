@@ -1,1 +1,1 @@
-docker build -t videoupload .
+docker build -t majest/slim-upload-example .
