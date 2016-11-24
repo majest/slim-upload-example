@@ -22,18 +22,19 @@ final class UploadAction
     public function __invoke(Request $req, Response $res, $args)
     {
         $this->logger->info('Upload action dispatched');
-        //$response = $res->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $response = $res->withStatus(200)->withHeader('Content-Type', 'application/json');
 
         $files = $req->getUploadedFiles();
 
-        if (empty($files['newfile'])) {
+        if (empty($files['name'])) {
             throw new \Exception('Expected a newfile');
         }
 
-        $newfile = $files['newfile'];
+        $newfile = $files['name'];
         if ($newfile->getError() === UPLOAD_ERR_OK) {
             $uploadFileName = $newfile->getClientFilename();
-            $newfile->moveTo('/tmp/data/'.$uploadFileName);
+            $dir = dirname($_SERVER["SCRIPT_FILENAME"]) . '/../upload/'.$uploadFileName;
+            $newfile->moveTo($dir);
             return $response->write(json_encode(array('msg' => 'Upload successful. Filename: '.$uploadFileName)));
         }
 

@@ -1,5 +1,9 @@
 <?php
 
+ini_set('memory_limit', '300M');
+ini_set('post_max_size', '100M');
+ini_set('upload_max_filesize', '200M');
+
 // To help the built-in PHP dev server, check if the request was actually for
 // something which should probably be served as a static file
 if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
@@ -7,6 +11,7 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 
 require __DIR__ . '/../vendor/autoload.php';
 
